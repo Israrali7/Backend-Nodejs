@@ -23,24 +23,6 @@ router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const result = await productModel.findById(id)
-        req.status(200).json({
-            isSuccessful: true,
-            data: result,
-        })
-    }
-    catch (error) {
-        console.log(error)
-        res.status(500).json({
-            isSuccessful: false,
-            err: error.message,
-        })
-    }
-})
-
-router.put("/", async (req, res) => {
-    try {
-        const id = req.params.id;
-        const result = await productModel.findByIdAndUpdate(id);
         res.status(200).json({
             isSuccessful: true,
             data: result,
@@ -55,13 +37,31 @@ router.put("/", async (req, res) => {
     }
 })
 
-router.delete("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await productModel.findByIdAndUpdate(id ,req.body, { new: true });
+        res.status(200).json({
+            isSuccessful: true,
+            data: result,
+        })
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({
+            isSuccessful: false,
+            err: error.message,
+        })
+    }
+})
+
+router.delete("/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const result = await productModel.findByIdAndDelete(id);
         res.status(200).json({
             isSuccessful: true,
-            data: result,
+            data: "Empty",
         })
     }
     catch (error) {

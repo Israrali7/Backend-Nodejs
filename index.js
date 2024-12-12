@@ -3,9 +3,12 @@ const express = require("express")
 const mongoose = require('mongoose');
 const BookRoute = require("./routes/BookRoute");
 const productRoute = require("./routes/productRoute")
+const cors = require("cors");
 
 const App = express();
 App.use(express.json());
+App.use(cors());
+
 
 // FIRST TIME GETTING
 
@@ -126,7 +129,7 @@ App.use("/products", productRoute);
 
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-    App.listen(4000, () => {
+    App.listen(5000, () => {
         console.log("DB connected and SerVer Started");
     })
 }).catch((err) => {
