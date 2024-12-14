@@ -3,6 +3,7 @@ const express = require("express")
 const mongoose = require('mongoose');
 const BookRoute = require("./routes/BookRoute");
 const productRoute = require("./routes/productRoute")
+const userAuth = require("./routes/userAuth")
 const cors = require("cors");
 
 const App = express();
@@ -124,7 +125,7 @@ App.use(cors());
 
 App.use("/books", BookRoute);
 App.use("/products", productRoute);
-
+App.use("/auth" , userAuth)
 
 
 

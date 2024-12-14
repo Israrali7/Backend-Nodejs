@@ -1,7 +1,7 @@
-function sendResponse(x, y, z) {
-    {
-    "isSuccessful" : x,
+// function sendResponse(x, y, z) {
+//     {
+//     "isSuccessful" : x,
 
-    }
+//     }
 
-}
+// }

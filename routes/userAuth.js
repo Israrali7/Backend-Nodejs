@@ -1,5 +1,5 @@
 const express = require("express")
-const userSchema = require("../model/userSchema")
+const userSchema = require("../models/usermodel")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
 
@@ -163,4 +163,4 @@ router.post("/login", async (req, res) => {
     }
 })
 
-module.export = router;
+module.exports = router;
