@@ -130,7 +130,7 @@ App.use("/auth" , userAuth)
 
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-    App.listen(5000, () => {
+    App.listen(4000, () => {
         console.log("DB connected and SerVer Started");
     })
 }).catch((err) => {

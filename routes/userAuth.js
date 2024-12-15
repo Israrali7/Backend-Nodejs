@@ -2,42 +2,18 @@ const express = require("express")
 const userSchema = require("../models/usermodel")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
+const usermodel = require("../models/usermodel");
 
 
 const router = express.Router();
 
-// // Getting Protected API 
-// router.get("/", (req, res) => {
-//     try {
-//         let token = req.headers.authorization;
-//         token = token.split("")[1]
-//         console.log(token);
-//         jwt.verify(token, "qwerty123456", async (err, decoded) => {
-//             if (err) {
-//                 throw err
-//             }else{
-//                 console.log(decoded);
-//                 const result = await BookModel.find({})
-//                 res.status(200).json({
-//                     isSuccefull : true,
-//                     data : result,
-//                 })
 
-//             }
-//         })
-
-//     }
-//     catch (error) {
-
-//     }
-// })
 
 
 // Getting Protected API 
 // router.get("/", req, res, next) => {
 //     try {
-//         let token = req.headers.authorization;
-//         token = token.split("")[1]
+//         let token = req.headers.authorization?.split("")[1]
 //         console.log(token);
 //         jwt.verify(token, "qwerty123456", async (err, decoded) => {
 //             if (err) {
@@ -54,6 +30,48 @@ const router = express.Router();
 //         })
 //     }
 // }
+
+
+
+router.get("/token", async (req, res) => {
+  try {
+    let token = req.headers.authorization;
+
+    // Check if token exists
+    if (!token) {
+      return res.status(401).json({
+        isSuccess: false,
+        message: "No token provided",
+      });
+    }
+
+    // Remove "Bearer " prefix from the token if present
+    token = token.split(" ")[1];
+
+    // Verify the token
+    jwt.verify(token, "qwerty123456", async (err, decoded) => {
+      if (err) {
+        return res.status(403).json({
+          isSuccess: false,
+          message: "Invalid token",
+        });
+      }
+
+      // Token is valid; fetch the data
+      const result = await usermodel.find({});
+      return res.status(200).json({
+        isSuccess: true,
+        data: result,
+      });
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      isSuccess: false,
+      message: "Internal server error",
+    });
+  }
+});
 
 router.post("/signUp", async (req, res) => {
     try {
@@ -128,7 +146,7 @@ router.post("/login", async (req, res) => {
             passwordMatch = await bcrypt.compare(body.password, existingUser.password)
             if (passwordMatch) {
                 const token = jwt.sign({ ...existingUser }, "qwerty123456", {
-                    expiresIn: "3min",
+                    expiresIn: "2min",
                 })
 
                 res.status(200).json({
